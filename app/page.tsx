@@ -18,7 +18,7 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!name || !dish) return alert("Please fill in both fields!");
     await addDoc(collection(db, "guests"), { name, dish });
@@ -86,9 +86,10 @@ export default function Home() {
         </h1>
       </div>
 
-
+      {/* @ts-ignore */}
       <marquee style={{ color: "gold", fontSize: "20px" }}>
         <img src="/gifs/santa_walk.gif"/>
+      {/* @ts-ignore */}
       </marquee>
 
       <h2 style={{fontFamily: "Comic Sans MS", fontSize: "25px", textAlign: "center"}}> Enter your name and what dish you're bringing for the potluck!</h2>
