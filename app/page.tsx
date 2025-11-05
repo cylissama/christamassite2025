@@ -1,65 +1,159 @@
-import Image from "next/image";
+"use client";
+import { useState, useEffect } from "react";
+import { db } from "../lib/firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+  const [name, setName] = useState("");
+  const [dish, setDish] = useState("");
+  const [showPopup, setShowPopup] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPopup(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name || !dish) return alert("Please fill in both fields!");
+    await addDoc(collection(db, "guests"), { name, dish });
+    router.push("/party");
+  };
+
+  const handlePopupClick = () => {
+    setShowPopup(false);
+  };
+
+  return ( 
+    <> 
+      {showPopup && (
+        <div
+          onClick={handlePopupClick}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+            cursor: "pointer",
+          }}
+        >
+          <div style={{ textAlign: "center" }}>
+            <img 
+              src="/gifs/christmas_invite.gif" 
+              alt="Welcome"
+              style={{ width: "75vw", height: "75vh", objectFit: "contain" }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
         </div>
-      </main>
+      )}
+
+    <div className="welcome-header">
+
+      <audio autoPlay loop src="audio/ha_xmas.wav" />
+
+      <div style={{
+        backgroundColor: "#006400", // dark green
+        border: "8px solid",
+        borderImage: "linear-gradient(to right, red, gold, green, red) 1",
+        boxShadow: "0 0 30px gold, 0 0 50px gold",
+        padding: "20px",
+        margin: "20px auto",
+        maxWidth: "900px",
+        borderRadius: "10px"
+      }}>
+        <h1 style={{
+          paddingTop: "20px",
+          paddingBottom: "20px",
+          fontFamily: "Comic Sans MS", 
+          fontSize: "40px", 
+          textAlign: "center",
+          color: "white",
+          textShadow: "2px 2px 4px black",
+          margin: 0 
+        }}>
+          YOUR INVITED TO CY'S CHRISTMAS PARTY!
+        </h1>
+      </div>
+
+
+      <marquee style={{ color: "gold", fontSize: "20px" }}>
+        <img src="/gifs/santa_walk.gif"/>
+      </marquee>
+
+      <h2 style={{fontFamily: "Comic Sans MS", fontSize: "25px", textAlign: "center"}}> Enter your name and what dish you're bringing for the potluck!</h2>
+      <form onSubmit={handleSubmit} style={{ marginTop: "60px", textAlign: "center" }}>
+        <p>
+          <label>Name: </label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            style={{ padding: "5px", border: "2px solid red", backgroundColor: "green" }}
+          />
+        </p>
+        <p>
+          <label>Dish: </label>
+          <input
+            type="text"
+            value={dish}
+            onChange={(e) => setDish(e.target.value)}
+            style={{ padding: "5px", border: "2px solid red", backgroundColor: "green" }}
+          />
+        </p>
+        <button
+          type="submit"
+          style={{
+            marginTop: "20px",
+            backgroundColor: "red",
+            color: "white",
+            padding: "10px 20px",
+            border: "2px solid gold",
+          }}
+        >
+          Join the Party!
+        </button>
+      </form>
+
+      <div style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        flexWrap: "wrap",
+        margin: "10px auto",
+        maxWidth: "100vw",
+        padding: "0 20px",
+        gap: "20px"
+      }}>
+        <img 
+          src="/gifs/snow_window.gif" 
+          alt="Snow window" 
+          style={{ width: "300px", flexShrink: 0 }}
+        />
+        
+        <img 
+          src="/gifs/slay_santa.gif" 
+          alt="Center decoration" 
+          style={{ width: "400px", flexGrow: 1, maxWidth: "400px" }}
+        />
+        
+        <img 
+          src="/gifs/snow_window.gif" 
+          alt="Snow window" 
+          style={{ width: "300px", flexShrink: 0 }}
+        />
+      </div>
     </div>
+    </>
   );
 }
