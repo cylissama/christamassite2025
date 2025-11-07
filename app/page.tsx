@@ -3,25 +3,19 @@ import { useState, useEffect } from "react";
 import { db } from "../lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import AvatarSelector from "./components/AvatarSelector";
 
 export default function Home() {
   const [name, setName] = useState("");
   const [dish, setDish] = useState("");
   const [showPopup, setShowPopup] = useState(true);
+  const [avatar, setAvatar] = useState("/avatars/santa_list.gif");
   const router = useRouter();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowPopup(false);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!name || !dish) return alert("Please fill in both fields!");
-    await addDoc(collection(db, "guests"), { name, dish });
+    await addDoc(collection(db, "guests"), { name, dish, avatar });
     router.push("/party");
   };
 
@@ -32,6 +26,15 @@ export default function Home() {
   const handleNextPage = () => {
     router.push("/party");
   }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPopup(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
 
   return ( 
     <> 
@@ -49,6 +52,7 @@ export default function Home() {
         <h1>
           YOUR INVITED TO CY'S CHRISTMAS PARTY!
         </h1>
+
       </div>
 
       {/* @ts-ignore */}
@@ -57,7 +61,9 @@ export default function Home() {
       {/* @ts-ignore */}
       </marquee>
 
-      <h2> Enter your name and what dish you're bringing for the potluck!</h2>
+      <h2> 
+        Enter your name and what dish you're bringing for the potluck to RSVP!
+      </h2>
 
       <div className="form-container">
         <form onSubmit={handleSubmit} className="invite-form">
@@ -77,6 +83,11 @@ export default function Home() {
               onChange={(e) => setDish(e.target.value)}
             />
           </p>
+          <h2>
+            Choose an avatar!
+            <AvatarSelector selectedAvatar={avatar} onSelect={setAvatar} />
+          </h2>
+
           <button
             type="submit"
             className="outside-button"
@@ -105,18 +116,20 @@ export default function Home() {
           src="/gifs/snow_window.gif" 
           alt="Snow window" 
           style={{ width: "300px", flexShrink: 0 }}
+          className="gif-side"
         />
         
         <img 
-          src="/gifs/slay_santa.gif" 
+          src="/gifs/seasons_greetings.gif" 
           alt="Center decoration" 
-          style={{ width: "400px", flexGrow: 1, maxWidth: "400px" }}
+          style={{ width: "400px", flexGrow: 1 }}
         />
         
         <img 
           src="/gifs/snow_window.gif" 
           alt="Snow window" 
           style={{ width: "300px", flexShrink: 0 }}
+          className="gif-side"
         />
       </div>
     </div>

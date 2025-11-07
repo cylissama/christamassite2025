@@ -19,6 +19,12 @@
   }
 }
 
+@media (max-width: 1200) {
+  .gif-side {
+    display: none;
+  }
+}
+
 @keyframes sparkle {
     0% { border-image: linear-gradient(to right, red, gold, green, red) 1; }
     50% { border-image: linear-gradient(to right, gold, red, gold, green) 1; }
@@ -76,7 +82,8 @@
   font-family: Comic Sans MS;
   font-size: 40px;
   text-align: center;
-  color: white;
+  color: gold;
+  gradient: linear-gradient(to right, red, gold, green, red);
   text-shadow: 2px 2px 4px black;
   margin: 0;
 }
@@ -108,6 +115,10 @@
 .welcome-header marquee {
   color: gold;
   font-size: 20px;
+}
+
+.welcome-header h2 {
+  padding-bottom: 40px;
 }
 
 .form-container {
@@ -212,7 +223,7 @@
     text-align: center;
 }
 
-.attendees-box {
+.attendees-container {
   background: rgba(0, 100, 0, 1);
   border: 4px ridge gold;
   padding: 20px;
@@ -220,7 +231,7 @@
   max-width: 600px;
 }
 
-.attendees-box h1 {
+.attendees-container h1 {
   font-family: 'Comic Sans MS', cursive, sans-serif;
   text-align: center;
   color: gold;
@@ -229,7 +240,7 @@
   text-shadow: 2px 2px 4px black;
 }
 
-.attendees-box h3 {
+.attendees-container h2 {
   font-family: 'Comic Sans MS', cursive, sans-serif;
   text-align: center;
   color: white;
@@ -239,8 +250,7 @@
 
 .attendees-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 10px;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .attendees-list-box {
@@ -253,11 +263,10 @@
   justify-content: center;
   align-items: center;
   padding: 10px;
-  text-align: center;
+  margin: 10px;
   color: white;
   font-family: Arial, sans-serif;
 }
-
 .name-text{
   font-size: 18px;
   font-weight: bold;

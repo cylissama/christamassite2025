@@ -24,6 +24,7 @@ export default function Party() {
         endTime: "2025-12-20T23:00:00",
         options: ["Apple Calendar", "Google Calendar", "Outlook Calendar", "Yahoo Calendar"],
     }
+        
 
     useEffect(() => {
         const unsubGuests = onSnapshot(collection(db, "guests"), (snapshot) => {
@@ -44,9 +45,9 @@ export default function Party() {
     <div>
 
         <div class="marquee-header">
-            <marquee> 
-                Cy's Christmas Party 2025 🎄 Cy's Christmas Party 2025 🎄 Cy's Christmas Party 2025 🎄 Cy's Christmas Party 2025 🎄
-            </marquee>
+            <h1>
+                Cy's Christmas Party 2025
+            </h1>
         </div>
 
         <div className="tile-background-container-2">
@@ -56,7 +57,7 @@ export default function Party() {
                 <div class="info-box">
                     <h2> When and Where </h2>
                     <p> Date: TBD </p>
-                    <p> Time: 6:00 PM - Sober </p>
+                    <p> Time: 6:00 PM - Late </p>
                     <p> Location: Cy's Parents House </p>
                     <p> RSVP by December 10, 2024 or else...</p>
                     <div class="flex justify-center mt-4">
@@ -77,19 +78,24 @@ export default function Party() {
 
                 <img src="/gifs/snowglobe.gif" />
 
-                <div class="attendees-box">
+                <div class="attendees-container">
                         
                     <h1>
                         Welcome to the Party Lounge
                     </h1>
 
-                    <h3>
+                    <h2>
                         See who's coming
-                    </h3>
+                    </h2>
 
                     <div class="atendees-list">
                         {guests.map((g, i) => (
                         <div key={i} class="attendees-list-box">
+                            <img
+                            src={g.avatar || "/avatars/smiley.png"}
+                            alt="avatar"
+                            className="w-8 h-8 rounded-full border border-gray-400"
+                            />
                             <div class="name-text">
                             {g.name}
                             </div>
