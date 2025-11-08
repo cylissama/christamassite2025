@@ -2,230 +2,152 @@
 import { useEffect, useState } from "react";
 import { db } from "../../lib/firebase";
 import { collection, onSnapshot, addDoc } from "firebase/firestore";
+import { AddToCalendarButton } from "add-to-calendar-button-react";
 
 export default function Party() {
-  const [guests, setGuests] = useState([]);
-  const [message, setMessage] = useState("");
-  const [chat, setChat] = useState([]);
+    const [guests, setGuests] = useState([]);
+    const [message, setMessage] = useState("");
+    const [chat, setChat] = useState([]);
 
-  useEffect(() => {
-    const unsubGuests = onSnapshot(collection(db, "guests"), (snapshot) => {
-      setGuests(snapshot.docs.map((doc) => doc.data()));
-    });
-    const unsubChat = onSnapshot(collection(db, "chat"), (snapshot) => {
-      setChat(snapshot.docs.map((doc) => doc.data()));
-    });
-    return () => {
-      unsubGuests();
-      unsubChat();
+    const sendMessage = async (e) => {
+        e.preventDefault();
+        if (!message.trim()) return;
+        await addDoc(collection(db, "chat"), { text: message });
+        setMessage("");
     };
-  }, []);
 
-  const sendMessage = async (e) => {
-    e.preventDefault();
-    if (!message.trim()) return;
-    await addDoc(collection(db, "chat"), { text: message });
-    setMessage("");
-  };
+    const event = {
+        title: "Cy's Christmas Party 2025",
+        description: "Join us for a festive celebration at Cy's Christmas Party 2025!",
+        location: "Cy's Parents House",
+        startTime: "2025-12-20T18:00:00",
+        endTime: "2025-12-20T23:00:00",
+        options: ["Apple Calendar", "Google Calendar", "Outlook Calendar", "Yahoo Calendar"],
+    }  
+
+    useEffect(() => {
+        const unsubGuests = onSnapshot(collection(db, "guests"), (snapshot) => {
+            setGuests(snapshot.docs.map((doc) => doc.data()));
+        });
+        const unsubChat = onSnapshot(collection(db, "chat"), (snapshot) => {
+            setChat(snapshot.docs.map((doc) => doc.data()));
+        });
+        return () => {
+            unsubGuests();
+            unsubChat();
+        };
+    }, []);
 
   return (
     <div>
 
+        <audio autoPlay loop src="audio/ha_xmas.wav" />
+
         <div class="marquee-header">
-            <marquee> 
-                Cy's Christmas Party 2025 🎄 Cy's Christmas Party 2025 🎄 Cy's Christmas Party 2025 🎄 Cy's Christmas Party 2025 🎄
-            </marquee>
+            <h1>
+                Cy's Christmas Party 2025
+            </h1>
         </div>
 
-        <div className="tile-background-container-2">
+        <marquee>
+            <img src="gifs/kitten_stocking.gif"/>
+        </marquee>
 
-            <div style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                flexWrap: "wrap",
-                margin: "10px auto",
-                maxWidth: "100vw",
-                padding: "0 20px",
-                gap: "20px"
-            }}>
-                <div class="box text-center">
+        <div class="tile-background-container-2">
+
+            <div class="gif-container">
+
+                <div class="info-box">
                     <h2> When and Where </h2>
                     <p> Date: TBD </p>
-                    <p> Time: 6:00 PM - Sober </p>
+                    <p> Time: 6:00 PM - Late </p>
                     <p> Location: Cy's Parents House </p>
                     <p> RSVP by December 10, 2024 or else...</p>
-                </div>  
-
-                <img src="/gifs/snowglobe.gif" />
-
-                <div style={{
-                background: "#006400",
-                border: "4px ridge gold",
-                padding: "30px",
-                margin: "40px auto",
-                maxWidth: "800px"
-                }}>
-                <h1 style={{ 
-                    fontFamily: "'Comic Sans MS'",
-                    textAlign: "center",
-                    color: "gold",
-                    fontSize: "32px",
-                    marginBottom: "20px"
-                }}>
-                    Welcome to the Party Lounge
-                </h1>
-
-                <h3 style={{
-                    textAlign: "center",
-                    color: "white",
-                    fontSize: "20px",
-                    marginBottom: "25px"
-                }}>
-                    See who's coming
-                </h3>
-
-                <div style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
-                    gap: "15px"
-                }}>
-                    {guests.map((g, i) => (
-                    <div key={i} style={{
-                        width: "180px",
-                        height: "120px",
-                        background: "#228B22",
-                        border: "3px outset #FFD700",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        padding: "10px",
-                        textAlign: "center",
-                        color: "white",
-                        fontFamily: "Arial, sans-serif"
-                    }}>
-                        <div style={{
-                        fontSize: "16px",
-                        fontWeight: "bold",
-                        marginBottom: "8px",
-                        color: "gold"
-                        }}>
-                        {g.name}
-                        </div>
-                        <div style={{
-                        fontSize: "14px",
-                        color: "white"
-                        }}>
-                        {g.dish}
-                        </div>
+                    <div class="flex justify-center mt-4">
+                        <AddToCalendarButton
+                            name={event.title}
+                            description={event.description}
+                            startDate={event.startTime.split("T")[0]}
+                            endDate={event.endTime.split("T")[0]}
+                            startTime={event.startTime.split("T")[1].replace("Z", "")}
+                            endTime={event.endTime.split("T")[1].replace("Z", "")}
+                            location={event.location}
+                            options={["Apple", "Google", "iCal", "Outlook.com", "Yahoo"]}
+                            size="5"
+                            buttonStyle="flat"
+                        />
                     </div>
-                    ))}
-                </div>
                 </div>
 
+                <div class="info-box">
+                    <h1> BRING A GIFT FOR THE GIFT EXCHANGE </h1>
+                    $15 - $30
+                    <img src="gifs/white.gif"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="attendees-container">
+                
+            <h1> Welcome to the Party Lounge </h1>
+
+            <h2> See who's coming </h2>
+
+            <div className="attendees-list">
+                {guests.map((g, i) => (
+                <div key={i} className="attendees-list-box">
+                    <img
+                    src={g.avatar || "/avatars/smiley.png"}
+                    alt="avatar"
+                    class="w-15 h-15 rounded-full border border-gray-400"
+                    />
+                    <div class="name-text">
+                    {g.name}
+                    </div>
+                    <div class="dish-text">
+                    {g.dish}
+                    </div>
+                </div>
+                ))}
             </div>
 
         </div>
 
-        <div style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                flexWrap: "wrap",
-                margin: "10px auto",
-                maxWidth: "100vw",
-                padding: "0 20px",
-                gap: "20px"
-            }}>
-                <img src="/gifs/snowglobe.gif" />
-                <img src="/gifs/santa_pray.gif" />
-                <img src="/gifs/christmas_25.gif" />
-                <img src="/gifs/snowglobe.gif" />
-            </div>
-
-
         {/* Chat Room Section */}
-        <div style={{
-            background: "#8B0000",
-            border: "4px ridge gold",
-            padding: "30px",
-            margin: "40px auto",
-            maxWidth: "800px"
-        }}>
-            <h2 style={{
-                fontFamily: "'Comic Sans MS'",
-                textAlign: "center",
-                color: "gold",
-                fontSize: "28px",
-                marginBottom: "20px"
-            }}>
+        <div className="chat-room-container">
+
+            <h2>
                 Party Chat Room
             </h2>
 
-            <div style={{
-                background: "#FFFFFF",
-                border: "3px inset #666",
-                height: "300px",
-                overflowY: "scroll",
-                padding: "15px",
-                marginBottom: "20px",
-                fontFamily: "Arial, sans-serif",
-                fontSize: "14px"
-            }}>
+            <div className="chat-room-messages-container">
                 {chat.length === 0 ? (
-                    <p style={{ color: "#666", textAlign: "center" }}>
+                    <p>
                         No messages yet. Be the first to say something!
                     </p>
                 ) : (
                     chat.map((msg, i) => (
-                        <div key={i} style={{
-                            background: "#F0F0F0",
-                            border: "2px outset #CCC",
-                            padding: "8px",
-                            marginBottom: "10px",
-                            borderRadius: "3px"
-                        }}>
+                        <div key={i} class="chat-message">
                             {msg.text}
                         </div>
                     ))
                 )}
             </div>
 
-            <form onSubmit={sendMessage} style={{
-                display: "flex",
-                gap: "10px"
-            }}>
+            <form onSubmit={sendMessage}>
                 <input
                     type="text"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Type your message..."
-                    style={{
-                        flex: 1,
-                        padding: "10px",
-                        border: "3px inset #666",
-                        fontSize: "14px",
-                        fontFamily: "Arial, sans-serif"
-                    }}
                 />
-                <button
-                    type="submit"
-                    style={{
-                        background: "#228B22",
-                        color: "white",
-                        border: "3px outset #FFD700",
-                        padding: "10px 25px",
-                        fontSize: "16px",
-                        fontWeight: "bold",
-                        cursor: "pointer",
-                        fontFamily: "'Comic Sans MS'"
-                    }}
-                >
+                <button type="submit">
                     Send
                 </button>
             </form>
+
         </div>
+
     </div>
   );
 }
