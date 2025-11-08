@@ -1,1 +1,1 @@
-add an avatar picking system.
+Christmas Site
