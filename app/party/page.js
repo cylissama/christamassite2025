@@ -20,8 +20,8 @@ export default function Party() {
         title: "Cy's Christmas Party 2025",
         description: "Join us for a festive celebration at Cy's Christmas Party 2025!",
         location: "Cy's Parents House",
-        startTime: "2025-19-20T18:00:00",
-        endTime: "2025-19-20T23:00:00",
+        startTime: "2025-13-20T18:00:00",
+        endTime: "2025-13-20T23:00:00",
         options: ["Apple Calendar", "Google Calendar", "Outlook Calendar", "Yahoo Calendar"],
     }  
 
@@ -59,7 +59,7 @@ export default function Party() {
 
                 <div class="info-box">
                     <h2> When and Where </h2>
-                    <p> Date: Dec 19 </p>
+                    <p> Date: Dec 13, lmk if that dont work </p>
                     <p> Time: 6:00 PM - Late </p>
                     <p> Location: Cy's Parents House </p>
                     <p> RSVP by December 10, 2024 or else...</p>
