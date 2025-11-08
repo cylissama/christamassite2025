@@ -20,8 +20,8 @@ export default function Party() {
         title: "Cy's Christmas Party 2025",
         description: "Join us for a festive celebration at Cy's Christmas Party 2025!",
         location: "Cy's Parents House",
-        startTime: "2025-12-20T18:00:00",
-        endTime: "2025-12-20T23:00:00",
+        startTime: "2025-19-20T18:00:00",
+        endTime: "2025-19-20T23:00:00",
         options: ["Apple Calendar", "Google Calendar", "Outlook Calendar", "Yahoo Calendar"],
     }  
 
