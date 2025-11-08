@@ -23,8 +23,7 @@ export default function Party() {
         startTime: "2025-12-20T18:00:00",
         endTime: "2025-12-20T23:00:00",
         options: ["Apple Calendar", "Google Calendar", "Outlook Calendar", "Yahoo Calendar"],
-    }
-        
+    }  
 
     useEffect(() => {
         const unsubGuests = onSnapshot(collection(db, "guests"), (snapshot) => {
@@ -39,10 +38,10 @@ export default function Party() {
         };
     }, []);
 
-
-
   return (
     <div>
+
+        <audio autoPlay loop src="audio/ha_xmas.wav" />
 
         <div class="marquee-header">
             <h1>
@@ -50,9 +49,13 @@ export default function Party() {
             </h1>
         </div>
 
-        <div className="tile-background-container-2">
+        <marquee>
+            <img src="gifs/kitten_stocking.gif"/>
+        </marquee>
 
-            <div className="gif-container">
+        <div class="tile-background-container-2">
+
+            <div class="gif-container">
 
                 <div class="info-box">
                     <h2> When and Where </h2>
@@ -74,50 +77,41 @@ export default function Party() {
                             buttonStyle="flat"
                         />
                     </div>
-                </div>  
-
-                <img src="/gifs/snowglobe.gif" />
-
-                <div class="attendees-container">
-                        
-                    <h1>
-                        Welcome to the Party Lounge
-                    </h1>
-
-                    <h2>
-                        See who's coming
-                    </h2>
-
-                    <div class="atendees-list">
-                        {guests.map((g, i) => (
-                        <div key={i} class="attendees-list-box">
-                            <img
-                            src={g.avatar || "/avatars/smiley.png"}
-                            alt="avatar"
-                            className="w-8 h-8 rounded-full border border-gray-400"
-                            />
-                            <div class="name-text">
-                            {g.name}
-                            </div>
-                            <div class="dish-text">
-                            {g.dish}
-                            </div>
-                        </div>
-                        ))}
-                    </div>
                 </div>
 
+                <div class="info-box">
+                    <h1> BRING A GIFT FOR THE GIFT EXCHANGE </h1>
+                    $15 - $30
+                    <img src="gifs/white.gif"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="attendees-container">
+                
+            <h1> Welcome to the Party Lounge </h1>
+
+            <h2> See who's coming </h2>
+
+            <div className="attendees-list">
+                {guests.map((g, i) => (
+                <div key={i} className="attendees-list-box">
+                    <img
+                    src={g.avatar || "/avatars/smiley.png"}
+                    alt="avatar"
+                    class="w-15 h-15 rounded-full border border-gray-400"
+                    />
+                    <div class="name-text">
+                    {g.name}
+                    </div>
+                    <div class="dish-text">
+                    {g.dish}
+                    </div>
+                </div>
+                ))}
             </div>
 
         </div>
-
-        <div class="gif-container">
-                <img src="/gifs/snowglobe.gif" />
-                <img src="/gifs/santa_pray.gif" />
-                <img src="/gifs/christmas_25.gif" />
-                <img src="/gifs/snowglobe.gif" />
-            </div>
-
 
         {/* Chat Room Section */}
         <div className="chat-room-container">
@@ -151,7 +145,9 @@ export default function Party() {
                     Send
                 </button>
             </form>
+
         </div>
+
     </div>
   );
 }
