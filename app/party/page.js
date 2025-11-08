@@ -59,7 +59,7 @@ export default function Party() {
 
                 <div class="info-box">
                     <h2> When and Where </h2>
-                    <p> Date: TBD </p>
+                    <p> Date: Dec 19 </p>
                     <p> Time: 6:00 PM - Late </p>
                     <p> Location: Cy's Parents House </p>
                     <p> RSVP by December 10, 2024 or else...</p>
